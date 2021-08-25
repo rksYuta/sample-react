@@ -1,31 +1,47 @@
-
-import React,{useState} from 'react';
-
+import React, { useState } from 'react';
 const App=()=>{
-return(
-  <div>
-    <Todo/>
-  </div>
-)
-}
-const Todo=()=>{
-  const todolist =[
-    {task: 'sample1'},
-    {task: 'sample2'},
-    {task: 'sample3'}
-  ]
-  const addNewTask =()=>{
-    console.log('ok')
-  }
-  const [todos, setTodo]=useState(todolist)
-  const [text,setText]=useState('')
   return(
     <div>
-      <h1>React Todo sample</h1>
-      <input></input>
-      <button onClick={addNewTask}>add</button>
-      <div>{todos.map((todo,index)=>(<div key={index}>{todo.task}</div>))}</div>
+      <h1>React Todo List</h1>
+      <Todo/>
     </div>
   )
 }
+
+const Todo=()=>{
+  const todolist=[]
+  const [todo,setTodo]=useState(todolist)
+  const [task,setTask]=useState('')
+
+
+  const addTodo=(e)=>{
+    setTask(e.target.value)
+  }
+  const Submit=()=>{
+    if(task === ''){
+      return
+    }else{
+      setTodo(todo => [...todo, {task}])
+      setTask('')
+    }
+  }
+
+const deleteTodo=(index)=>{
+  const newTodo=[...todo]
+  newTodo.splice(index,1)
+  setTodo(newTodo)
+}
+  return(
+    <div>
+      <input type="text" value={task} onChange={addTodo}></input>
+      <button type="button" onClick={Submit}>add</button>
+      <div>
+        {todo.map((val, index)=>(
+          <div key={index}>{val.task}<button onClick={deleteTodo}>delete</button></div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default App;
